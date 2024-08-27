@@ -1,21 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import PointView from '../view/main/point';
+import PointView from '../view/main/point-view';
 import type { Point } from '../types/point-type';
 import { render, replace, remove } from '../framework/render';
-import type { EmptyFn, PointData } from '../types/common';
-import { UserAction } from '../const';
+import type { EmptyFn, PointChange, PointData } from '../types/common';
+import { Mode, UserAction } from '../const';
 import { UpdateType } from '../const';
 import dayjs from 'dayjs';
-import PointFormView from '../view/main/point-form';
+import PointFormView from '../view/main/point-form-view';
 import { isDatesEqual } from '../utils/time/filters-time';
 import type { Models } from '../model/create-models';
-
-const enum Mode {
-  DEFAULT,
-  EDITING,
-}
-
-type PointChange = (actionType: UserAction, updateType: UpdateType, update: any) => void;
 
 export default class PointPresenter {
   #container: HTMLUListElement;
@@ -25,22 +17,22 @@ export default class PointPresenter {
   #models: Models | null = null;
   #point: Point | null = null;
 
-  #handleDataChange: PointChange;
-  #handleModeChange: EmptyFn;
+  #dataChangeHandler: PointChange;
+  #modeChangeHandler: EmptyFn;
   #mode = Mode.DEFAULT;
 
   constructor({
     container,
-    onDataChange,
-    onModeChange,
+    dataChangeHandler: dataChangeHandler,
+    modeChangeHandler: modeChangeHandler,
   }: {
     container: HTMLUListElement;
-    onDataChange: PointChange;
-    onModeChange: EmptyFn;
+    dataChangeHandler: PointChange;
+    modeChangeHandler: EmptyFn;
   }) {
     this.#container = container;
-    this.#handleDataChange = onDataChange;
-    this.#handleModeChange = onModeChange;
+    this.#dataChangeHandler = dataChangeHandler;
+    this.#modeChangeHandler = modeChangeHandler;
   }
 
   init({ point, models }: PointData) {
@@ -53,17 +45,17 @@ export default class PointPresenter {
     this.#pointComponent = new PointView({
       point: this.#point,
       models: this.#models,
-      onEditClick: this.#handleEditClick,
-      onFavoriteClick: this.#handleFavoriteClick,
+      editButtonClickHandler: this.#editButtonClickHandler,
+      favoriteButtonClickHandler: this.#favoriteButtonClickHandler,
     });
 
     this.#pointEditComponent = new PointFormView({
       point: this.#point,
       models: this.#models,
       isNewPoint: false,
-      onFormSubmit: this.#handleFormSubmit,
-      onDeleteClick: this.#handleDeleteClick,
-      onFormClose: this.#handleFormClose,
+      formSubmitHandler: this.#formSubmitHandler,
+      deleteButtonClickHandler: this.#deleteButtonClickHandler,
+      formCloseHandler: this.#formCloseHandler,
     });
 
     if (prevPointComponent === null || prevPointEditComponent === null) {
@@ -91,7 +83,7 @@ export default class PointPresenter {
 
   resetView() {
     if (this.#mode !== Mode.DEFAULT) {
-      this.#handleFormClose();
+      this.#formCloseHandler();
     }
   }
 
@@ -135,8 +127,8 @@ export default class PointPresenter {
       return;
     }
     replace(this.#pointEditComponent, this.#pointComponent);
-    document.addEventListener('keydown', this.#handleEscKeyDown);
-    this.#handleModeChange();
+    document.addEventListener('keydown', this.#escKeydownHandler);
+    this.#modeChangeHandler();
     this.#mode = Mode.EDITING;
   }
 
@@ -148,23 +140,23 @@ export default class PointPresenter {
       this.#pointEditComponent.reset(this.#point);
     }
     replace(this.#pointComponent, this.#pointEditComponent);
-    document.removeEventListener('keydown', this.#handleEscKeyDown);
+    document.removeEventListener('keydown', this.#escKeydownHandler);
     this.#mode = Mode.DEFAULT;
   }
 
-  #handleEditClick = () => this.#switchToEditMode();
-  #handleFormClose = () => this.#switchToViewMode();
-  #handleDeleteClick = (point: Point) => {
-    this.#handleDataChange(UserAction.DELETE_POINT, UpdateType.MINOR, point);
+  #editButtonClickHandler = () => this.#switchToEditMode();
+  #formCloseHandler = () => this.#switchToViewMode();
+  #deleteButtonClickHandler = (point: Point) => {
+    this.#dataChangeHandler(UserAction.DELETE_POINT, UpdateType.MINOR, point);
   };
 
-  #handleFavoriteClick = () => {
+  #favoriteButtonClickHandler = () => {
     if (this.#point) {
-      this.#handleDataChange(UserAction.UPDATE_POINT, UpdateType.MINOR, { ...this.#point, isFavorite: !this.#point.isFavorite });
+      this.#dataChangeHandler(UserAction.UPDATE_POINT, UpdateType.MINOR, { ...this.#point, isFavorite: !this.#point.isFavorite });
     }
   };
 
-  #handleFormSubmit = (updatedPoint: Point) => {
+  #formSubmitHandler = (updatedPoint: Point) => {
     const point = this.#point;
     if (point) {
       const isMinorUpdate =
@@ -172,11 +164,11 @@ export default class PointPresenter {
         !isDatesEqual(dayjs(point.dateTo), dayjs(updatedPoint.dateTo)) ||
         point.offers !== updatedPoint.offers;
 
-      this.#handleDataChange(UserAction.UPDATE_POINT, isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH, updatedPoint);
+      this.#dataChangeHandler(UserAction.UPDATE_POINT, isMinorUpdate ? UpdateType.MINOR : UpdateType.PATCH, updatedPoint);
     }
   };
 
-  #handleEscKeyDown = (evt: KeyboardEvent) => {
+  #escKeydownHandler = (evt: KeyboardEvent) => {
     if (evt.key === 'Escape') {
       evt.preventDefault();
       if (this.#pointEditComponent) {

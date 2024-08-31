@@ -1,9 +1,13 @@
 import { render, replace, remove } from '../framework/render';
-import FilterView from '../view/header/filter-view';
+import FilterView from '../view/header/filter';
 import { filter } from '../utils/filter';
 import type FilterModel from '../model/filter-model';
 import type PointsModel from '../model/points-model';
+<<<<<<< HEAD
 import type { FilterType } from '../types/common';
+=======
+import type { FilterType } from '../const';
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
 import { FILTER_TYPES } from '../const';
 import type { Models } from '../model/create-models';
 
@@ -38,7 +42,11 @@ export default class FilterPresenter {
     this.#filterComponent = new FilterView({
       filters,
       currentFilterType: this.#filterModel.filter ?? 'everything',
+<<<<<<< HEAD
       filterTypeChangeHandler: this.#filterTypeChangeHandler,
+=======
+      onFilterTypeChange: this.#handleFilterTypeChange,
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
     });
 
     if (prevFilterComponent === null) {

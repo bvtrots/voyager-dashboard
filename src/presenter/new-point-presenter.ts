@@ -1,5 +1,6 @@
 import type { Point } from '../types/point-type';
 import { render, remove } from '../framework/render';
+<<<<<<< HEAD
 import type { EmptyFn, PointChange } from '../types/common';
 import { UserAction } from '../const';
 import { UpdateType } from '../const';
@@ -12,6 +13,22 @@ export default class NewPointPresenter {
   #dataChangeHandler: PointChange;
   #newPointDestroyHandler: EmptyFn;
   #formCloseHandler: EmptyFn;
+=======
+import type { EmptyFn } from '../types/common';
+import { UserAction } from '../const';
+import { UpdateType } from '../const';
+import { DEFAULT_POINT } from '../const';
+import PointFormView from '../view/main/point-form';
+import type { Models } from '../model/create-models';
+
+type PointChange = (actionType: UserAction, updateType: UpdateType, update: any) => void;
+
+export default class NewPointPresenter {
+  #container: any;
+  #handleDataChange: PointChange;
+  #handleNewPointDestroy: EmptyFn;
+  #handleFormClose: EmptyFn;
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
   #pointNewComponent: PointFormView | null = null;
   #models: Models;
   #point: Point;
@@ -19,6 +36,7 @@ export default class NewPointPresenter {
   constructor({
     container,
     models,
+<<<<<<< HEAD
     dataChangeHandler: dataChangeHandler,
     newPointDestroyHandler: newPointDestroyHandler,
     formCloseHandler: formCloseHandler,
@@ -28,13 +46,30 @@ export default class NewPointPresenter {
     dataChangeHandler: PointChange;
     newPointDestroyHandler: EmptyFn;
     formCloseHandler: EmptyFn;
+=======
+    onDataChange,
+    onNewPointDestroy,
+    onFormClose,
+  }: {
+    container: HTMLUListElement;
+    models: Models;
+    onDataChange: PointChange;
+    onNewPointDestroy: EmptyFn;
+    onFormClose: EmptyFn;
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
   }) {
     this.#container = container;
     this.#models = models;
     this.#point = DEFAULT_POINT;
+<<<<<<< HEAD
     this.#dataChangeHandler = dataChangeHandler;
     this.#newPointDestroyHandler = newPointDestroyHandler;
     this.#formCloseHandler = formCloseHandler;
+=======
+    this.#handleDataChange = onDataChange;
+    this.#handleNewPointDestroy = onNewPointDestroy;
+    this.#handleFormClose = onFormClose;
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
   }
 
   init() {
@@ -42,14 +77,24 @@ export default class NewPointPresenter {
       point: this.#point,
       models: this.#models,
       isNewPoint: true,
+<<<<<<< HEAD
       formSubmitHandler: this.#formSubmitHandler,
       deleteButtonClickHandler: this.#cancelButtonClickHandler,
       formCloseHandler: () => null,
+=======
+      onFormSubmit: this.#handleFormSubmit,
+      onDeleteClick: this.#handleCancelClick,
+      onFormClose: () => null,
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
     });
 
     render(this.#pointNewComponent, this.#container, 'afterbegin');
 
+<<<<<<< HEAD
     document.addEventListener('keydown', this.#escKeydownHandler);
+=======
+    document.addEventListener('keydown', this.#handleEscKeyDown);
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
   }
 
   destroy() {
@@ -57,12 +102,21 @@ export default class NewPointPresenter {
       return;
     }
 
+<<<<<<< HEAD
     this.#newPointDestroyHandler();
     this.#formCloseHandler();
     remove(this.#pointNewComponent);
     this.#pointNewComponent = null;
 
     document.removeEventListener('keydown', this.#escKeydownHandler);
+=======
+    this.#handleNewPointDestroy();
+    this.#handleFormClose();
+    remove(this.#pointNewComponent);
+    this.#pointNewComponent = null;
+
+    document.removeEventListener('keydown', this.#handleEscKeyDown);
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
   }
 
   setSaving() {
@@ -84,6 +138,7 @@ export default class NewPointPresenter {
     this.#pointNewComponent?.shake(resetFormState);
   }
 
+<<<<<<< HEAD
   #formSubmitHandler = (newPoint: Point) => {
     this.#dataChangeHandler(UserAction.ADD_POINT, UpdateType.MINOR, newPoint);
   };
@@ -93,6 +148,18 @@ export default class NewPointPresenter {
   };
 
   #escKeydownHandler = (evt: KeyboardEvent) => {
+=======
+  #handleFormSubmit = (newPoint: Point) => {
+    this.#handleDataChange(UserAction.ADD_POINT, UpdateType.MINOR, newPoint);
+    this.destroy();
+  };
+
+  #handleCancelClick = () => {
+    this.destroy();
+  };
+
+  #handleEscKeyDown = (evt: KeyboardEvent) => {
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
     if (evt.key === 'Escape') {
       evt.preventDefault();
       this.destroy();

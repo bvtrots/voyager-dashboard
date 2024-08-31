@@ -31,7 +31,10 @@ export default class DestinationsModel extends Observable<UpdateType, Point> {
       this.#destinations = destinations ?? [];
     } catch (err) {
       this.#destinations = [];
+<<<<<<< HEAD
       throw new Error('Can\'t load destinations');
+=======
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
     }
 
     this._notify(UpdateType.INIT, {});

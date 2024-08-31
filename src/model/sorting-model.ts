@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import type { SortType } from '../types/common';
+=======
+import type { SortType } from '../const';
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
 import { UpdateType } from '../const';
 import { SORT_TYPES } from '../const';
 import Observable from '../framework/observable';

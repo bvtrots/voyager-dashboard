@@ -15,10 +15,17 @@ const createAvailableOffersTemplate = (offer: InnerOffer, selectedOffers: Set<st
     </div>`;
 };
 
+<<<<<<< HEAD:src/templates/form/offers-template.ts
 const createOffersTemplate = (
   { type, selectedOffers, isDisabled }: Pick<State, 'type' | 'isDisabled' | 'selectedOffers'>,
   models: Models,
 ) => {
+=======
+const createOffersTemplate = (point: State, models: Models) => {
+  const type = point.type;
+  const selectedOffers = point.selectedOffers;
+  const isDisabled = point.isDisabled;
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6:src/templates/form/offers.ts
   const availableOffers = models.offersModel.getAvailableOffers(type);
 
   return availableOffers.length !== 0

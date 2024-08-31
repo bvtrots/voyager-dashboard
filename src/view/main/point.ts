@@ -5,7 +5,7 @@ import type { Destination } from '../../types/destination-type';
 import type { InnerOffer } from '../../types/offer-type';
 import { capitalLetter } from '../../utils/utils';
 import { getDuration } from '../../utils/time/time';
-import { createSelectedOffersTemplate } from '../../templates/selected-offers-template';
+import { createSelectedOffersTemplate } from '../../templates/selected-offers';
 import type { EmptyFn, PointData } from '../../types/common';
 
 function getTemplate(point: Point, destination: Destination, selectedOffers: InnerOffer[]): string {
@@ -61,12 +61,16 @@ export default class PointView extends AbstractView<HTMLTimeElement> {
   #editButtonClickHandler: EmptyFn;
   #favoriteButtonClickHandler: EmptyFn;
 
+<<<<<<< HEAD:src/view/main/point-view.ts
   constructor({
     point,
     models,
     editButtonClickHandler: editButtonClickHandler,
     favoriteButtonClickHandler: favoriteButtonClickHandler,
   }: PointData & { editButtonClickHandler: EmptyFn; favoriteButtonClickHandler: EmptyFn }) {
+=======
+  constructor({ point, models, onEditClick, onFavoriteClick }: PointData & { onEditClick: EmptyFn; onFavoriteClick: EmptyFn }) {
+>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6:src/view/main/point.ts
     super();
 
     this.#point = point;

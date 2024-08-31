@@ -1,11 +1,7 @@
 import { capitalLetter, checkMatch } from '../../utils/utils';
 import type { PointType } from '../../types/point-type';
 import { POINTS_TYPES } from '../../const';
-<<<<<<<< HEAD:src/templates/form/point-types-template.ts
 import { FormName } from '../../const';
-========
-import { FormNames } from './form';
->>>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6:src/templates/form/types.ts
 import he from 'he';
 
 const getTemplate = (pointsType: PointType, type: PointType) =>

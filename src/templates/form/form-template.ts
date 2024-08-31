@@ -1,6 +1,5 @@
 import type { State } from '../../types/state';
 import { capitalLetter } from '../../utils/utils';
-<<<<<<< HEAD:src/templates/form/form-template.ts
 import { createDescriptionTemplate } from './description-template';
 import { createDestinationsListTemplate } from './destinations-template';
 import { createOffersTemplate } from './offers-template';
@@ -11,22 +10,6 @@ import he from 'he';
 import type { Models } from '../../model/create-models';
 import { FormName } from '../../const';
 
-=======
-import { createDescriptionTemplate } from './description';
-import { createDestinationsListTemplate } from './destinations';
-import { createOffersTemplate } from './offers';
-import { createPicturesTemplate } from './pictures';
-import { createPointsTypesListTemplate } from './types';
-import { pointDataForTemplate } from './point-data';
-import he from 'he';
-import type { Models } from '../../model/create-models';
-
-export const enum FormNames {
-  Price = 'event-price',
-  Type = 'event-type',
-  Destination = 'event-destination',
-}
->>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6:src/templates/form/form.ts
 export function getFormTemplate(data: State, models: Models, isNewPoint: boolean) {
   const point = pointDataForTemplate(data, models, isNewPoint);
 

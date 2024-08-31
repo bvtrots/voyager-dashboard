@@ -11,7 +11,7 @@ export function setEventStart(view: View) {
     time_24hr: true,
     dateFormat: 'j\\/m\\/y H\\:i',
     onChange: startDateChangeHandler,
-  });
+  } as any);
 
   function startDateChangeHandler([userDate]: Date[]) {
     const start = appDay(userDate);
@@ -28,7 +28,10 @@ export function setEventStart(view: View) {
 }
 
 export function setEventFinish(view: View) {
-  const currentStartDate = view._state.dateFrom === '' ? 'today' : appDay(view._state.dateFrom).toString();
+  const currentStartDate =
+    view._state.dateFrom === ''
+      ? 'today'
+      : appDay(view._state.dateFrom).toString();
 
   flatpickr(view.element.querySelectorAll('.event__input--time')[1], {
     minDate: currentStartDate,
@@ -37,7 +40,7 @@ export function setEventFinish(view: View) {
     time_24hr: true,
     dateFormat: 'j\\/m\\/y H\\:i',
     onChange: finishDateChangeHandler,
-  });
+  } as any);
 
   function finishDateChangeHandler([userDate]: Date[]) {
     const start = appDay(view._state.dateFrom);

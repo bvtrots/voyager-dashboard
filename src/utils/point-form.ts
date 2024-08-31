@@ -26,11 +26,7 @@ export function typeChangeHandler(view: View, evt: Event) {
   });
 }
 
-<<<<<<< HEAD
 export function destinationChangeHandler(view: View, evt: Event, models: Models) {
-=======
-export function handleDestinationChange(view: View, evt: Event, models: Models) {
->>>>>>> 1633722d9aa4728b5e046b08d5e16569e2ae3ea6
   const select = (evt.target as HTMLInputElement).value;
 
   if (!models.destinationsModel.allDestinationsNames.includes(select)) {

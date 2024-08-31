@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable camelcase */
 import ApiService from '../framework/api-service';
 import type { Destination } from '../types/destination-type';
@@ -66,22 +65,5 @@ export default class PointsApiService extends ApiService {
 
   adaptToClient(point: ServerPoint) {
     return camelizeObject(point);
-  }
-
-  adaptToClient(point: any) {
-    const adaptedPoint = {
-      ...point,
-      dateFrom: point['date_from'],
-      dateTo: point['date_to'],
-      basePrice: point['base_price'],
-      isFavorite: point['is_favorite'],
-    };
-
-    delete adaptedPoint['date_from'];
-    delete adaptedPoint['date_to'];
-    delete adaptedPoint['base_price'];
-    delete adaptedPoint['is_favorite'];
-
-    return adaptedPoint;
   }
 }

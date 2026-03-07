@@ -12,6 +12,7 @@ import { filter } from '../utils/filter';
 import ListView from '../view/main/list-view';
 import NewPointPresenter from './new-point-presenter';
 import PointPresenter from './point-presenter';
+import {showToast} from "../utils/utils";
 
 export default class ListPresenter {
   #mainContainer: HTMLTableSectionElement;
@@ -19,6 +20,7 @@ export default class ListPresenter {
   #pointsModel: PointsModel;
   #filterModel: FilterModel;
   #sortingModel: SortingModel;
+  #serverTimeout:any;
   #models: Models;
   #listContainer: ListView;
   #pointsPresenters = new Map<Point['id'], PointPresenter>();
@@ -79,6 +81,13 @@ export default class ListPresenter {
   }
 
   init() {
+    this.#serverTimeout = setTimeout(() => {
+      if (this.#isLoading) {
+        showToast();
+      }
+    }, 3000);
+
+
     this.#renderMessage(Message.LOADING, this.#currentFilter);
   }
 
@@ -92,6 +101,8 @@ export default class ListPresenter {
     if (this.#isLoading) {
       return;
     }
+
+    clearTimeout(this.#serverTimeout);
 
     if (this.points.length > 0) {
       remove(this.#messageComponent);

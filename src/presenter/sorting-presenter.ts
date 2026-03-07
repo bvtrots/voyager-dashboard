@@ -1,10 +1,10 @@
-import type { SortType } from '../const';
+import type { SortType } from '../types/common';
 import { remove, render } from '../framework/render';
 import type { Models } from '../model/create-models';
 import type FilterModel from '../model/filter-model';
 import type PointsModel from '../model/points-model';
 import type SortingModel from '../model/sorting-model';
-import SortingView from '../view/main/sorting';
+import SortingView from '../view/main/sorting-view';
 
 export default class SortingPresenter {
   #container: HTMLTableSectionElement;
@@ -19,21 +19,33 @@ export default class SortingPresenter {
     this.#pointsModel = models.pointsModel;
     this.#filterModel = models.filtersModel;
 
-    this.#pointsModel.addObserver(this.#handleModelEvent);
-    this.#filterModel.addObserver(this.#handleModelEvent);
+    this.#pointsModel.addObserver(this.#modelEventHandler);
+    this.#filterModel.addObserver(this.#modelEventHandler);
   }
 
+  init() {
+    this.#renderSorting();
+  }
+
+  dataLoadHandler = (isSuccessful: boolean) => {
+    if (isSuccessful === false) {
+      remove(this.#sortComponent);
+    }
+  };
+
   #renderSorting() {
-    this.#sortComponent = new SortingView({ onSortTypeChange: this.#handleSortTypeChange });
+    this.#sortComponent = new SortingView({ sortTypeChangeHandler: this.#sortTypeChangeHandler });
     render(this.#sortComponent, this.#container, 'afterbegin');
   }
 
-  #handleSortTypeChange = (sortType: SortType) => {
+  #sortTypeChangeHandler = (sortType: SortType) => {
     this.#sortingModel.setSortType(sortType);
   };
 
-  #handleModelEvent = () => {
+  #modelEventHandler = () => {
     remove(this.#sortComponent);
-    this.#renderSorting();
+    if (this.#pointsModel.points.length > 0) {
+      this.#renderSorting();
+    }
   };
 }

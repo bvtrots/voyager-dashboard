@@ -1,22 +1,29 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import NewButtonView from '../view/header/new-button';
+import NewButtonView from '../view/header/new-button-view';
 import type { EmptyFn } from '../types/common';
 import { render } from '../framework/render';
 
 export default class NewButtonPresenter {
   #container: HTMLDivElement;
   #button: NewButtonView | null = null;
-  #onButtonClick: EmptyFn;
+  #buttonClickHandler: EmptyFn;
 
-  constructor({ container, onNewButtonClick: onNewButtonClick }: { container: any; onNewButtonClick: EmptyFn }) {
+  constructor({ container, newButtonClickHandler: newButtonClickHandler }: { container: HTMLDivElement; newButtonClickHandler: EmptyFn }) {
     this.#container = container;
-    this.#onButtonClick = onNewButtonClick;
+    this.#buttonClickHandler = newButtonClickHandler;
   }
 
   init() {
-    this.#button = new NewButtonView({ onButtonClick: this.#handleButton });
+    this.#button = new NewButtonView({ newButtonClickHandler: this.#newButtonClickHandler });
     render(this.#button, this.#container);
   }
+
+  dataLoadHandler = (isSuccessful: boolean) => {
+    if (isSuccessful === false) {
+      if (this.#button !== null) {
+        this.#button.element.disabled = true;
+      }
+    }
+  };
 
   activate() {
     if (this.#button !== null) {
@@ -24,8 +31,8 @@ export default class NewButtonPresenter {
     }
   }
 
-  #handleButton = () => {
-    this.#onButtonClick();
+  #newButtonClickHandler = () => {
+    this.#buttonClickHandler();
     if (this.#button !== null) {
       this.#button.element.disabled = true;
     }

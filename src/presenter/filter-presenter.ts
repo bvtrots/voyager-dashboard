@@ -1,9 +1,9 @@
 import { render, replace, remove } from '../framework/render';
-import FilterView from '../view/header/filter';
+import FilterView from '../view/header/filter-view';
 import { filter } from '../utils/filter';
 import type FilterModel from '../model/filter-model';
 import type PointsModel from '../model/points-model';
-import type { FilterType } from '../const';
+import type { FilterType } from '../types/common';
 import { FILTER_TYPES } from '../const';
 import type { Models } from '../model/create-models';
 
@@ -18,8 +18,8 @@ export default class FilterPresenter {
     this.#pointsModel = models.pointsModel;
     this.#filterModel = models.filtersModel;
 
-    this.#pointsModel.addObserver(this.#handleModelEvent);
-    this.#filterModel.addObserver(this.#handleModelEvent);
+    this.#pointsModel.addObserver(this.#modelEventHandler);
+    this.#filterModel.addObserver(this.#modelEventHandler);
   }
 
   get filters() {
@@ -38,7 +38,7 @@ export default class FilterPresenter {
     this.#filterComponent = new FilterView({
       filters,
       currentFilterType: this.#filterModel.filter ?? 'everything',
-      onFilterTypeChange: this.#handleFilterTypeChange,
+      filterTypeChangeHandler: this.#filterTypeChangeHandler,
     });
 
     if (prevFilterComponent === null) {
@@ -55,11 +55,11 @@ export default class FilterPresenter {
     remove(prevFilterComponent);
   }
 
-  #handleModelEvent = () => {
+  #modelEventHandler = () => {
     this.init();
   };
 
-  #handleFilterTypeChange = (filterType: FilterType) => {
+  #filterTypeChangeHandler = (filterType: FilterType) => {
     if (!this.#filterModel || this.#filterModel.filter === filterType) {
       return;
     }

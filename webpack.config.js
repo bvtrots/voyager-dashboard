@@ -1,9 +1,14 @@
-const path = require('path');
-const CopyPlugin = require('copy-webpack-plugin');
-const HtmlPlugin = require('html-webpack-plugin');
+import path from 'path';
+import { fileURLToPath } from 'url';
+import CopyPlugin from 'copy-webpack-plugin';
+import HtmlPlugin from 'html-webpack-plugin';
 
-module.exports = {
-  entry: './src/main.js',
+// В ES-модулях нет глобальной переменной __dirname, создаем её сами
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+export default {
+  entry: './src/main.ts', // проверь точку входа, может быть src/index.js или main.js
   output: {
     filename: 'bundle.[contenthash].js',
     path: path.resolve(__dirname, 'build'),
@@ -28,15 +33,17 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
-        exclude: /(node_modules)/,
-        use: {
-          loader: 'babel-loader',
-          options: {
-            presets: ['@babel/preset-env']
-          },
-        },
+        test: /\.ts$/,
+        use: 'ts-loader',
+        exclude: /node_modules/,
       },
-    ]
-  }
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
+    ],
+  },
+  resolve: {
+    extensions: ['.ts', '.js'],
+  },
 };

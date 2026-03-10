@@ -3,12 +3,11 @@ import { fileURLToPath } from 'url';
 import CopyPlugin from 'copy-webpack-plugin';
 import HtmlPlugin from 'html-webpack-plugin';
 
-// В ES-модулях нет глобальной переменной __dirname, создаем её сами
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 export default {
-  entry: './src/main.ts', // проверь точку входа, может быть src/index.js или main.js
+  entry: './src/main.ts',
   output: {
     filename: 'bundle.[contenthash].js',
     path: path.resolve(__dirname, 'build'),

@@ -1,5 +1,10 @@
-import MessageView from '../view/main/message-view';
-import { Message, SORT_TYPES, TimeLimit, UpdateType, UserAction } from '../const';
+import {
+  Message,
+  SORT_TYPES,
+  TimeLimit,
+  UpdateType,
+  UserAction,
+} from '../const';
 import { remove, render } from '../framework/render';
 import UiBlocker from '../framework/ui-blocker/ui-blocker';
 import type { Models } from '../model/create-models';
@@ -9,10 +14,11 @@ import type SortingModel from '../model/sorting-model';
 import type { EmptyFn, FilterType, SortType } from '../types/common';
 import type { Point } from '../types/point-type';
 import { filter } from '../utils/filter';
+import { hideToast, showToast } from '../utils/utils';
 import ListView from '../view/main/list-view';
+import MessageView from '../view/main/message-view';
 import NewPointPresenter from './new-point-presenter';
 import PointPresenter from './point-presenter';
-import {showToast} from "../utils/utils";
 
 export default class ListPresenter {
   #mainContainer: HTMLTableSectionElement;
@@ -20,7 +26,7 @@ export default class ListPresenter {
   #pointsModel: PointsModel;
   #filterModel: FilterModel;
   #sortingModel: SortingModel;
-  #serverTimeout:any;
+  #serverTimeout: any;
   #models: Models;
   #listContainer: ListView;
   #pointsPresenters = new Map<Point['id'], PointPresenter>();
@@ -76,8 +82,12 @@ export default class ListPresenter {
     this.#currentFilter = this.#filterModel?.filter ?? 'everything';
     const points = this.#pointsModel.points;
     const filteredPoints = filter[this.#currentFilter](points);
-
-    return this.#sortingModel?.getSortedPoints(filteredPoints, this.#currentSortType) ?? points;
+    return (
+      this.#sortingModel?.getSortedPoints(
+        filteredPoints,
+        this.#currentSortType,
+      ) ?? points
+    );
   }
 
   init() {
@@ -85,8 +95,7 @@ export default class ListPresenter {
       if (this.#isLoading) {
         showToast();
       }
-    }, 3000);
-
+    }, 5000);
 
     this.#renderMessage(Message.LOADING, this.#currentFilter);
   }
@@ -102,9 +111,9 @@ export default class ListPresenter {
       return;
     }
 
-    clearTimeout(this.#serverTimeout);
-
     if (this.points.length > 0) {
+      clearTimeout(this.#serverTimeout);
+      hideToast();
       remove(this.#messageComponent);
       render(this.#listContainer, this.#mainContainer, 'beforeend');
       this.#renderPoints(this.points!);
@@ -158,7 +167,11 @@ export default class ListPresenter {
     }
   };
 
-  #viewActionHandler = async (actionType: UserAction, updateType: UpdateType, updatedPoint: Point) => {
+  #viewActionHandler = async (
+    actionType: UserAction,
+    updateType: UpdateType,
+    updatedPoint: Point,
+  ) => {
     this.#uiBlocker.block();
 
     switch (actionType) {

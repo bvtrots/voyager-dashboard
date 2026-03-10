@@ -1,4 +1,4 @@
-# 🗺️ Voyager Dashboard — Travel Management System
+# 📋 Voyager Dashboard — Travel Management System
 
 <p align="center">
   <img src="public/img/app-screenshot.jpg" alt="Voyager Dashboard Interface" width="600px">
@@ -30,7 +30,7 @@ Voyager Dashboard is a sophisticated travel planning platform built with **Vanil
 * 🧩 **Component-Based UI**: Developed a custom framework of reusable components (`AbstractView`, `AbstractStatefulView`) to handle complex DOM manipulations and state updates.
 * ⏱️ **Advanced Form Handling**: Integrated **Flatpickr** for precise time selection and implemented comprehensive validation for travel destination data.
 * 🔄 **Reactive Updates**: Utilized an **Observable** pattern to ensure the UI stays in sync with data changes without full page reloads.
-* 📡 **Live Backend Integration**: Communicates with the [bvtrots-mock-server](https://bvtrots-mock-server.onrender.com) hosted on Render.
+* 📡 **Live Backend Integration**: Communicates with the [bvtrots-test-server](https://bvtrots-test-server.onrender.com) hosted on Render.
 
 ---
 
@@ -51,22 +51,52 @@ voyager-dashboard/
 └── package.json        # Scripts & dependencies
 ```
 
-⚙️ Installation & Setup
-
+## ⚙️ Installation & Setup
 1. Clone the repository
-Bash
-git clone [https://github.com/bvtrots/voyager-dashboard.git](https://github.com/bvtrots/voyager-dashboard.git)
-cd voyager-dashboard 
-2. Install dependencies Bash
-npm install 
-3. Run in development mode Bash
-npm start
-[!IMPORTANT]
-Note: The application uses a free Render instance for the backend. Free instances spin down after inactivity. On the first launch, it may take 30–60 seconds for the server to "wake up." If data doesn't load immediately, please visit the backend link to trigger the server wake-up.
+
+        git clone https://github.com/bvtrots/voyager-dashboard.git
+        cd voyager-dashboard
+
+
+2. Install dependencies
+
+        npm install
+
+
+3. Run in development mode
+
+        npm run start
+
+   [⚠️!IMPORTANT]\
+   Note: The application uses a free Render instance for the backend. Free instances spin down after inactivity. On the first launch, it may take 30–60 seconds for the server to "wake up." If data doesn't load immediately, please visit the backend link to trigger the server wake-up.
+
+
+4. Build for production
+
+        npm run build
+
+---
+
+
+## 📜 Commit Convention
+To maintain a clean and readable history, this project follows a semantic commit convention with emojis:
+
+| Tag | Emoji | Meaning |
+| :--- | :--- | :--- |
+| **feat** | ✨ | New feature or functionality |
+| **fix** | 💊 | Bug fixes and code repairs |
+| **refactor** | ♻️ | Code restructuring without changing functionality |
+| **style** | 🎨 | UI/UX, CSS, and layout improvements |
+| **build** | ⚙️ | Build system configuration or dependencies |
+| **chore** | 🔧 | Maintenance, config tweaks, or tool updates |
+| **docs** | 📝 | Documentation and comments |
+
+---
 
 📝 Engineering Commentary
-This project demonstrates the power of modern TypeScript without the overhead of heavy frameworks. By building a custom component system and state management logic, the application achieves exceptional performance and maintainability. The code follows strict OOP principles, making it highly extensible.
+This project serves as a deep dive into Vanilla TypeScript and the MVP pattern. The architecture is built for strict type safety and high performance, demonstrating how complex business logic (like travel scheduling and stateful form validation) can be implemented with clean, modular, and extensible code.
+
 
 <p align="center">
-Developed with ❤️ by <strong><a href="https://github.com/bvtrots" style="text-decoration: none;">Bogdan</a></strong>
+Developed with ❤️ by <strong><a href="https://github.com/bvtrots">bvtrots</a></strong>
 </p>

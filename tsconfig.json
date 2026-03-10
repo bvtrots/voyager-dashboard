@@ -14,6 +14,7 @@
       "@view": ["./src/view"],
       "@view/*": ["./src/view/*"]
     },
+
     "skipLibCheck": true,
     "strict": true,
     "target": "ES2022"

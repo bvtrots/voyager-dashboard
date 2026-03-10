@@ -2,7 +2,9 @@ import PointsApiService from './point-api-service';
 
 const enum Setting {
   AUTHORIZATION = 'Basic YQpmc1BozkUB3Krfr[0',
-  END_POINT = 'https://bvtrots-mock-server.onrender.com/voyager-dashboard',
+  // BASE_URL = 'http://localhost:3001',
+  BASE_URL = 'https://bvtrots-test-server.onrender.com',
+  END_POINT = `${BASE_URL}/voyager-dashboard`
 }
 
 export const createService = () =>

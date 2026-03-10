@@ -13,15 +13,15 @@ const URL = {
 
 export default class PointsApiService extends ApiService {
   get points() {
-    return this._load({ url: 'points' }).then(ApiService.parseResponse<ServerPoint[]>);
+    return this._load({ url: URL.POINTS }).then(ApiService.parseResponse<ServerPoint[]>);
   }
 
   get destinations() {
-    return this._load({ url: 'destinations' }).then(ApiService.parseResponse<Destination[]>);
+    return this._load({ url: URL.DESTINATIONS}).then(ApiService.parseResponse<Destination[]>);
   }
 
   get offers() {
-    return this._load({ url: 'offers' }).then(ApiService.parseResponse<Offer[]>);
+    return this._load({ url: URL.OFFERS }).then(ApiService.parseResponse<Offer[]>);
   }
 
   async updatePoint(point: Point) {
